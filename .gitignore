@@ -1,0 +1,64 @@
+# ───────────────────────────────
+# 🌐 Global ignores (editors, OS)
+# ───────────────────────────────
+.DS_Store
+Thumbs.db
+*.log
+*.tmp
+*.swp
+
+# VSCode settings
+.vscode/
+.idea/
+
+# Node modules
+**/node_modules/
+client/node_modules
+blockchain/node_modules
+
+# ───────────────────────────────
+# 📦 Hardhat (blockchain/) ignores
+# ───────────────────────────────
+blockchain/artifacts/
+blockchain/cache/
+blockchain/typechain/
+blockchain/deployments/
+blockchain/coverage/
+blockchain/.env
+blockchain/.openzeppelin/
+
+# Hardhat log files
+blockchain/test-*.json
+blockchain/hardhat-report.*
+
+# optional if you're using dotenv for keys
+blockchain/.env.local
+blockchain/.env.*
+
+# ───────────────────────────────
+# ⚛️ React (client/) ignores
+# ───────────────────────────────
+client/build/
+client/dist/
+client/.env
+client/.env.local
+client/.env.development
+client/.env.production
+client/.env.test
+
+# Testing coverage
+client/coverage/
+
+# Log files
+client/npm-debug.log*
+client/yarn-debug.log*
+client/yarn-error.log*
+
+# Optional: parcel, vite, etc
+client/.parcel-cache/
+client/.turbo/
+client/.next/
+
+# Local storage or runtime files
+client/.DS_Store
+client/.eslintcache
