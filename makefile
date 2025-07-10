@@ -10,11 +10,18 @@ CONFIG_FILE=$(CLIENT_DIR)/src/config.js
 start-node:
 	cd $(HARDHAT_DIR) && npm install && npx hardhat node
 
-deploy:
+deploy-localhost:
 	cd $(HARDHAT_DIR) && \
 	rm -rf cache artifacts && \
 	npx hardhat compile && \
 	npx hardhat run scripts/deploy.ts --network localhost
+
+deploy-testnet:
+	cd $(HARDHAT_DIR) && \
+	rm -rf cache artifacts && \
+	npx hardhat compile && \
+	npx hardhat run scripts/deploy.ts --network testnet
+
 
 start-client:
 	cd $(CLIENT_DIR) && npm install && npm start
