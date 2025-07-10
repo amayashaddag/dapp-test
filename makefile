@@ -8,7 +8,7 @@ CONFIG_FILE=$(CLIENT_DIR)/src/config.js
 .PHONY: start-node deploy start-client reset clear build
 
 start-node:
-	cd $(HARDHAT_DIR) && npx hardhat node
+	cd $(HARDHAT_DIR) && npm install && npx hardhat node
 
 deploy:
 	cd $(HARDHAT_DIR) && \
