@@ -1,13 +1,13 @@
 import { useEffect, useState } from "react";
 import { ethers } from "ethers";
-import LockABI from "./abi/Lock.json";
-import { LOCK_ADDRESS } from "./config";
+import NftFactoryABI from "./abi/NftFactory.json";
+import { NFT_FACTORY_ADDRESS } from "./config";
 
 function App() {
-  const [lockContract, setLockContract] = useState(null);
-  const [unlockTime, setUnlockTime] = useState(null);
-  const [owner, setOwner] = useState(null);
+  const [nftContract, setNftContract] = useState(null);
   const [currentAccount, setCurrentAccount] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const [status, setStatus] = useState("");
 
   useEffect(() => {
     const init = async () => {
@@ -24,41 +24,75 @@ function App() {
       setCurrentAccount(address);
 
       const contract = new ethers.Contract(
-        LOCK_ADDRESS,
-        LockABI.abi,
+        NFT_FACTORY_ADDRESS,
+        NftFactoryABI.abi,
         signer
       );
 
-      setLockContract(contract);
-
-      const unlock = await contract.unlockTime();
-      const ownerAddr = await contract.owner();
-
-      setUnlockTime(Number(unlock));
-      setOwner(ownerAddr);
+      setNftContract(contract);
     };
 
     init();
   }, []);
 
-  const handleWithdraw = async () => {
+  const handleMint = async () => {
+    if (!nftContract) return;
+
+    setLoading(true);
+    setStatus("Minting NFT...");
     try {
-      const tx = await lockContract.withdraw();
+      const tx = await nftContract.mint();
       await tx.wait();
-      alert("Withdraw successful");
+      setStatus("🎉 NFT minted successfully!");
     } catch (err) {
-      alert("Withdraw failed: " + err.message);
+      setStatus("❌ Minting failed: " + err.message);
+    } finally {
+      setLoading(false);
     }
   };
 
   return (
-    <div style={{ padding: 20 }}>
-      <h1>🔓 Lock Contract</h1>
-      <p>🧾 Contract: {LOCK_ADDRESS}</p>
-      <p>👤 Owner: {owner}</p>
-      <p>👛 You: {currentAccount}</p>
-      <p>⏰ Unlock time: {unlockTime ? new Date(unlockTime * 1000).toString() : "..."}</p>
-      <button onClick={handleWithdraw}>Withdraw</button>
+    <div className="min-h-screen bg-gradient-to-br from-gray-100 to-white flex flex-col items-center justify-center px-4">
+      <div className="bg-white shadow-xl rounded-2xl p-8 max-w-md w-full text-center">
+        <h1 className="text-3xl font-bold text-gray-800 mb-4">🖼️ NFT Factory</h1>
+        <p className="text-sm text-gray-500 mb-6">
+          Mint your own NFT on the blockchain
+        </p>
+
+        <div className="mb-6">
+          <p className="text-gray-700 text-sm">📄 Contract Address</p>
+          <code className="block break-all text-xs text-gray-500 bg-gray-100 p-2 rounded-md mt-1">
+            {NFT_FACTORY_ADDRESS}
+          </code>
+        </div>
+
+        <div className="mb-6">
+          <p className="text-gray-700 text-sm">👛 Connected Wallet</p>
+          <code className="block break-all text-xs text-gray-500 bg-gray-100 p-2 rounded-md mt-1">
+            {currentAccount || "Not connected"}
+          </code>
+        </div>
+
+        <button
+          className={`w-full py-3 px-6 rounded-xl font-semibold text-white transition ${
+            loading
+              ? "bg-gray-400 cursor-not-allowed"
+              : "bg-blue-600 hover:bg-blue-700"
+          }`}
+          onClick={handleMint}
+          disabled={loading}
+        >
+          {loading ? "Minting..." : "🎨 Mint NFT"}
+        </button>
+
+        {status && (
+          <p className="text-sm text-gray-600 mt-4">{status}</p>
+        )}
+      </div>
+
+      <footer className="mt-8 text-xs text-gray-400 text-center">
+        Powered by <span className="font-semibold text-blue-500">Hardhat & Ethers.js</span>
+      </footer>
     </div>
   );
 }
