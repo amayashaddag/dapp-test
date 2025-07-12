@@ -2,15 +2,22 @@ import { useEffect, useState } from "react";
 import { ethers } from "ethers";
 import NftFactoryABI from "./abi/NftFactory.json";
 import { NFT_FACTORY_ADDRESS } from "./config"
-import CustomButton from "./components/buttons/CustomButton";
+import LandingPage from "./pages/LandingPage";
+import { getHelloMessage } from "./api/backend";
 
 function App() {
   const [nftContract, setNftContract] = useState(null);
   const [currentAccount, setCurrentAccount] = useState(null);
   const [loading, setLoading] = useState(false);
   const [status, setStatus] = useState("");
+  const [data, setData] = useState("");
 
   useEffect(() => {
+    //connection to express server
+    getHelloMessage()
+      .then((res) => setData(res.data.message))
+      .catch((err) => console.error("API error:", err));
+
     const init = async () => {
       if (!window.ethereum) {
         alert("Please install MetaMask");
@@ -35,6 +42,7 @@ function App() {
 
     init();
   }, []);
+
 
   const handleMint = async () => {
     if (!nftContract) return;
