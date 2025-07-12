@@ -1,3 +1,213 @@
+/* 
+// ========================================
+// COLLECTION: users
+// ========================================
+const userSchema = {
+  _id: ObjectId,
+  username: String, // "alexb_fan"
+  displayName: String, // "Alex Bernard"
+  avatar: String, // "AB" ou URL vers image
+  email: String,
+  walletAddress: String, // Adresse blockchain
+  balances: {
+    chz: Number, // Balance CHZ (ex: 1247.50)
+    fanTokens: Number, // Total fan tokens (ex: 720)
+    nfts: Number // Nombre de NFTs (ex: 12)
+  },
+  profile: {
+    bio: String,
+    location: String,
+    joinDate: Date,
+    verified: Boolean,
+    followers: Number,
+    following: Number
+  },
+  settings: {
+    notifications: Boolean,
+    privacy: String, // "public", "private", "friends"
+    theme: String // "dark", "light"
+  },
+  createdAt: Date,
+  updatedAt: Date
+};
+
+// ========================================
+// COLLECTION: fanTokens
+// ========================================
+const fanTokenSchema = {
+  _id: ObjectId,
+  clubId: ObjectId, // Référence vers la collection clubs
+  symbol: String, // "PSG", "OM", "OL", etc.
+  name: String, // "Paris Saint-Germain Fan Token"
+  logo: String, // URL vers le logo ou emoji "🔵🔴"
+  currentPrice: Number, // Prix actuel (ex: 0.52)
+  priceHistory: [{
+    price: Number,
+    timestamp: Date
+  }],
+  marketData: {
+    change24h: Number, // Changement en pourcentage (ex: 2.5)
+    volume24h: Number,
+    marketCap: Number,
+    totalSupply: Number,
+    circulatingSupply: Number
+  },
+  isActive: Boolean,
+  createdAt: Date,
+  updatedAt: Date
+};
+
+// ========================================
+// COLLECTION: clubs
+// ========================================
+const clubSchema = {
+  _id: ObjectId,
+  name: String, // "Paris Saint-Germain"
+  shortName: String, // "PSG"
+  logo: String, // URL vers le logo
+  colors: [String], // ["#004170", "#C5093D"]
+  league: String, // "Ligue 1"
+  country: String, // "France"
+  founded: Date,
+  stadium: String,
+  fanTokenId: ObjectId, // Référence vers fanTokens
+  isActive: Boolean,
+  createdAt: Date,
+  updatedAt: Date
+};
+
+// ========================================
+// COLLECTION: liveStreams
+// ========================================
+const liveStreamSchema = {
+  _id: ObjectId,
+  creatorId: ObjectId, // Référence vers users
+  title: String, // "Match Analysis: PSG vs OM Preview"
+  description: String,
+  thumbnail: String, // URL vers miniature ou emoji
+  streamUrl: String, // URL du stream
+  status: String, // "live", "scheduled", "ended"
+  viewerCount: Number, // Nombre de viewers actuels
+  maxViewers: Number, // Pic de viewers
+  entryPrice: {
+    amount: Number, // Prix d'entrée (ex: 5)
+    currency: String // "fanTokens" ou "chz"
+  },
+  category: String, // "analysis", "preview", "discussion"
+  tags: [String], // ["PSG", "OM", "derby"]
+  chat: {
+    enabled: Boolean,
+    messages: [{
+      userId: ObjectId,
+      username: String,
+      message: String,
+      timestamp: Date
+    }]
+  },
+  scheduledAt: Date, // Pour les streams programmés
+  startedAt: Date,
+  endedAt: Date,
+  createdAt: Date,
+  updatedAt: Date
+};
+
+// ========================================
+// COLLECTION: posts
+// ========================================
+const postSchema = {
+  _id: ObjectId,
+  authorId: ObjectId, // Référence vers users
+  content: String, // Contenu du post
+  media: [{
+    type: String, // "image", "video", "gif"
+    url: String,
+    thumbnail: String, // Pour les vidéos
+    duration: Number // Pour les vidéos (en secondes)
+  }],
+  engagement: {
+    likes: Number,
+    comments: Number,
+    shares: Number,
+    views: Number
+  },
+  interactions: [{
+    userId: ObjectId,
+    type: String, // "like", "share", "comment"
+    timestamp: Date
+  }],
+  tags: [String], // Hashtags
+  mentions: [ObjectId], // UserIds mentionnés
+  visibility: String, // "public", "followers", "private"
+  isPinned: Boolean,
+  isSponsored: Boolean,
+  createdAt: Date,
+  updatedAt: Date
+};
+
+// ========================================
+// COLLECTION: comments
+// ========================================
+const commentSchema = {
+  _id: ObjectId,
+  postId: ObjectId, // Référence vers posts
+  authorId: ObjectId, // Référence vers users
+  content: String,
+  parentCommentId: ObjectId, // Pour les réponses aux commentaires
+  engagement: {
+    likes: Number,
+    replies: Number
+  },
+  mentions: [ObjectId], // UserIds mentionnés
+  createdAt: Date,
+  updatedAt: Date
+};
+
+// ========================================
+// COLLECTION: notifications
+// ========================================
+const notificationSchema = {
+  _id: ObjectId,
+  userId: ObjectId, // Référence vers users
+  type: String, // "like", "comment", "follow", "stream", "price_alert"
+  title: String,
+  message: String,
+  data: {}, // Données spécifiques selon le type
+  isRead: Boolean,
+  priority: String, // "low", "medium", "high"
+  createdAt: Date,
+  readAt: Date
+};
+
+// ========================================
+// COLLECTION: priceAlerts
+// ========================================
+// INDEXES RECOMMANDÉS
+// ========================================
+
+// Users
+db.users.createIndex({ "username": 1 }, { unique: true });
+db.users.createIndex({ "email": 1 }, { unique: true });
+db.users.createIndex({ "walletAddress": 1 }, { unique: true });
+
+// Fan Tokens
+db.fanTokens.createIndex({ "symbol": 1 }, { unique: true });
+db.fanTokens.createIndex({ "clubId": 1 });
+db.fanTokens.createIndex({ "currentPrice": 1 });
+
+// Posts
+db.posts.createIndex({ "authorId": 1 });
+db.posts.createIndex({ "createdAt": -1 });
+db.posts.createIndex({ "tags": 1 });
+
+// Live Streams
+db.liveStreams.createIndex({ "creatorId": 1 });
+db.liveStreams.createIndex({ "status": 1 });
+db.liveStreams.createIndex({ "scheduledAt": 1 });
+
+// Notifications
+db.notifications.createIndex({ "userId": 1, "createdAt": -1 });
+db.notifications.createIndex({ "isRead": 1 }); */
+
 import React, { useState } from 'react';
 import { 
   Wallet, 
