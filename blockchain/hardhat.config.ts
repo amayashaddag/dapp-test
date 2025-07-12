@@ -10,8 +10,7 @@ const config: HardhatUserConfig = {
     },
     testnet: {
       url: "https://spicy-rpc.chiliz.com/ ",  // Exemple d'URL RPC Chiliz Testnet (à vérifier)
-      chainId: 88882,                          // Exemple de chainId Chiliz Testnet (à confirmer)
-      accounts: ["3d1a89cd9877e8efd2946130f964ec8979370afc20ac737d73b28aa30928a793"]                     // Optionnel : clé privée pour déployer, si nécessaire
+      chainId: 88882,                          // Exemple de chainId Chiliz Testnet (à confirmer)                  // Optionnel : clé privée pour déployer, si nécessaire
     },
 
   },

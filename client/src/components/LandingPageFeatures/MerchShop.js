@@ -18,7 +18,7 @@ const MerchShop = () => {
       const contractWithSigner = new Contract(TICKETING_ADDRESS, contractABI.abi, signer); // ✅
 
       const tx = await contractWithSigner.buyTicket(walletAddress, ticketId, {
-        value: parseEther("1"), // ou item.price si dynamique
+        value: parseEther("0.00001347"), // ou item.price si dynamique
       });
 
       alert("Transaction envoyée : ", tx.hash);
