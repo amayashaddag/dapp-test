@@ -10,7 +10,6 @@ const PORT = process.env.PORT || 5000; // Fallback if PORT not in .env
 app.use(cors());
 app.use(express.json());
 
-// Connect to MongoDB
 connectDB(process.env.MONGO_URI);
 
 // Sample route
