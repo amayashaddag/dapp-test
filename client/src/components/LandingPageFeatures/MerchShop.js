@@ -21,6 +21,7 @@ const MerchShop = () => {
         value: parseEther("1"), // ou item.price si dynamique
       });
 
+      alert("Transaction envoyée : ", tx.hash);
       await tx.wait();
       alert("Achat effectué !");
     } catch (err) {
@@ -58,7 +59,7 @@ const MerchShop = () => {
     if (contract.realMadridWalletAddress) {
       getTickets(); // ✅ Appel uniquement si une adresse est fournie
     }
-  }, []);
+  }, [ticketsList]);
 
   return (
     <div className='w-full flex flex-wrap gap-x-6 gap-y-12 justify-start'>
