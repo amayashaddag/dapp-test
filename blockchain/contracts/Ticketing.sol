@@ -49,7 +49,7 @@ contract Ticketing {
             eventDate: block.timestamp + 1 days,
             price: 0.0001 ether,
             owner: address(0),
-            club: address(0),
+            club: realMadridWalletAddress,
             nftURI: ""
         });
 

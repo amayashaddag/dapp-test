@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import ButtonAddToCart from '../image/buttonAddToCart.svg';
-import { BrowserProvider, Contract, formatEther,parseEther } from 'ethers';
+import { BrowserProvider, Contract, formatEther, parseEther } from 'ethers';
 import contractABI from '../../abi/Ticketing.json';
 import { TICKETING_ADDRESS } from '../../config';
 
@@ -10,7 +10,7 @@ const contract = new Contract(TICKETING_ADDRESS, contractABI.abi, signer); // �
 
 const MerchShop = () => {
   const [ticketsList, setTicketsList] = useState([]); // ✅ Initialiser avec un tableau vide
- /* const handleBuyTicket = async (ticketId) => {
+  const handleBuyTicket = async (ticketId) => {
     try {
       const signer = await provider.getSigner(); // 🔐
       const walletAddress = await contract.realMadridWalletAddress(); // 👈 bien appeler la fonction
@@ -18,7 +18,7 @@ const MerchShop = () => {
       const contractWithSigner = new Contract(TICKETING_ADDRESS, contractABI.abi, signer); // ✅
 
       const tx = await contractWithSigner.buyTicket(walletAddress, ticketId, {
-        value: parseEther("0.0001"), // ou item.price si dynamique
+        value: parseEther("1"), // ou item.price si dynamique
       });
 
       await tx.wait();
@@ -27,7 +27,7 @@ const MerchShop = () => {
       console.error("Erreur lors de l’achat :", err);
       alert("Erreur lors de l’achat");
     }
-  };*/
+  };
 
 
   useEffect(() => {
@@ -69,7 +69,7 @@ const MerchShop = () => {
               <p className="font-specialGothic font-semibold text-[14px] text-[#004170]">{item.eventName}</p>
               <p className="font-inter font-semibold text-[14px] text-[#8D8A95]">Price</p>
               <p className="font-inter font-semibold text-[18px] text-[#110C22]">{item.price} CHZ</p>
-              <img src={ButtonAddToCart} alt='' className='ml-auto cursor-pointer' onClick={() => {}} />
+              <img src={ButtonAddToCart} alt='' className='ml-auto cursor-pointer' onClick={() => handleBuyTicket(item.id) } />
             </div>
           </div>
         ))
