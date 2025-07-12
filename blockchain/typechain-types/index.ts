@@ -34,7 +34,5 @@ export type { SafeCast } from "./@openzeppelin/contracts/utils/math/SafeCast";
 export { SafeCast__factory } from "./factories/@openzeppelin/contracts/utils/math/SafeCast__factory";
 export type { Strings } from "./@openzeppelin/contracts/utils/Strings";
 export { Strings__factory } from "./factories/@openzeppelin/contracts/utils/Strings__factory";
-export type { NftFactory } from "./contracts/NftFactory";
-export { NftFactory__factory } from "./factories/contracts/NftFactory__factory";
 export type { Ticketing } from "./contracts/Ticketing";
 export { Ticketing__factory } from "./factories/contracts/Ticketing__factory";

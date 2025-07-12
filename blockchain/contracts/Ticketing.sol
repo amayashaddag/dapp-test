@@ -2,11 +2,11 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.28;
 
-import "./NftFactory.sol";
+import "@openzeppelin/contracts/token/ERC721/extensions/ERC721URIStorage.sol";
+import "@openzeppelin/contracts/access/Ownable.sol";
 
-contract Ticketing {
+contract Ticketing is ERC721URIStorage {
     
-    NftFactory private nftFactory;
     mapping(uint256 => string) public milestoneNftURIs;
 
     struct Ticket {
@@ -21,7 +21,8 @@ contract Ticketing {
     }
 
     uint256 private ticketIdCount;
-    address private dummyClub = 0x1234567890123456789012345678901234567890;
+    uint256 private nftIdCount;
+    address public realMadridWalletAddress = 0x99C77CCEF2121091f1033982Bf940ea8587234b8;
 
     mapping(address => Ticket[]) public ticketsInSale;
     mapping(address => uint256) public attendedEvents;
@@ -32,9 +33,9 @@ contract Ticketing {
      * 
      * @dev Initialize the contract with some real milestone NFT URIs.
      */
-    constructor() {
+    constructor() ERC721("EventTicket", "ETK") {
         ticketIdCount = 0;
-        nftFactory = NftFactory(dummyClub);
+        nftIdCount = 0;
 
         milestoneNftURIs[1] = "https://example.com/milestone1.json";
         milestoneNftURIs[10] = "https://example.com/milestone2.json";
@@ -46,13 +47,13 @@ contract Ticketing {
             eventName: "Initial Event",
             eventDescription: "This is an initial event for testing purposes.",
             eventDate: block.timestamp + 1 days,
-            price: 0.0001 ether,
+            price: 0.000001 ether,
             owner: address(0),
-            club: address(0),
-            nftURI: ""
+            club: realMadridWalletAddress,
+            nftURI: "ipfs://bafkreib4f22nakdr2awk3scwa6dku23xokxdzczof4txc6iizxhwn4kx2y"
         });
 
-        ticketsInSale[address(0)].push(initialTicket);
+        ticketsInSale[realMadridWalletAddress].push(initialTicket);
         allTickets[0] = initialTicket;
         ticketIdCount++;
     }
@@ -115,10 +116,15 @@ contract Ticketing {
         delete allTickets[ticketId];
     }
 
+    function mintNFT(address to, string memory nftURI) internal {
+        _safeMint(to, nftIdCount);
+        _setTokenURI(nftIdCount, nftURI);
+        nftIdCount++;
+    }
+
     function buyTicket(address club, uint256 ticketId) external payable {
-        Ticket[] storage tickets = ticketsInSale[club];
-        require(ticketId < tickets.length, "Invalid ticket ID");
-        Ticket storage ticket = tickets[ticketId];
+        require(ticketId < ticketIdCount, "Invalid ticket ID");
+        Ticket storage ticket = allTickets[ticketId];
 
         require(msg.value >= ticket.price, "Insufficient payment");
         require(ticket.eventDate > block.timestamp, "Cannot buy ticket for past event");
@@ -127,14 +133,14 @@ contract Ticketing {
         attendedEvents[msg.sender]++;
 
         if (bytes(ticket.nftURI).length > 0) {
-            nftFactory.mintNFT(msg.sender, ticket.nftURI);
+            mintNFT(msg.sender, ticket.nftURI);
         }
         
         payable(club).transfer(msg.value);
         removeTicketFromSale(club, ticketId);
 
         if (bytes(milestoneNftURIs[attendedEvents[msg.sender]]).length > 0) {
-            nftFactory.mintNFT(msg.sender, milestoneNftURIs[ticketId]);
+            mintNFT(realMadridWalletAddress, milestoneNftURIs[ticketId]);
         }
     }
 
@@ -144,6 +150,10 @@ contract Ticketing {
             all[i] = allTickets[i];
         }
         return all;
+    }
+
+    function burnNft(uint256 tokenId) external {
+        _burn(tokenId);
     }
     
 }

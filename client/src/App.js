@@ -1,8 +1,9 @@
 import { useEffect, useState } from "react";
 import { ethers } from "ethers";
 import NftFactoryABI from "./abi/NftFactory.json";
-import { NFT_FACTORY_ADDRESS } from "./config"
+import { TICKETING_ADDRESS } from "./config"
 import LandingPage from "./pages/LandingPage";
+import CustomButton from "./components/buttons/CustomButton";
 import { getHelloMessage } from "./api/backend";
 
 function App() {
@@ -12,7 +13,7 @@ function App() {
   const [status, setStatus] = useState("");
   const [data, setData] = useState("");
 
-  useEffect(() => {
+ /* useEffect(() => {
     //connection to express server
     getHelloMessage()
       .then((res) => setData(res.data.message))
@@ -32,7 +33,7 @@ function App() {
       setCurrentAccount(address);
 
       const contract = new ethers.Contract(
-        NFT_FACTORY_ADDRESS,
+        TICKETING_ADDRESS,
         NftFactoryABI.abi,
         signer
       );
@@ -41,7 +42,7 @@ function App() {
     };
 
     init();
-  }, []);
+  }, []);*/
 
 
   const handleMint = async () => {
@@ -61,7 +62,7 @@ function App() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-100 to-white flex flex-col items-center justify-center px-4">
+   /* <div className="min-h-screen bg-gradient-to-br from-gray-100 to-white flex flex-col items-center justify-center px-4">
       <div className="bg-white shadow-xl rounded-2xl p-8 max-w-md w-full text-center">
         <h1 className="text-3xl font-bold text-gray-800 mb-4">🖼️ NFT Factory</h1>
         <p className="text-sm text-gray-500 mb-6">
@@ -108,7 +109,8 @@ function App() {
       <footer className="mt-8 text-xs text-gray-400 text-center">
         Powered by <span className="font-semibold text-blue-500">Hardhat & Ethers.js</span>
       </footer>
-    </div>
+    </div>*/
+    <LandingPage/>
   );
 }
 
