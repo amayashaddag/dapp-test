@@ -22,7 +22,7 @@ contract Ticketing is ERC721URIStorage {
 
     uint256 private ticketIdCount;
     uint256 private nftIdCount;
-    address public realMadridWalletAddress = 0xFABB0ac9d68B0B445fB7357272Ff202C5651694a;
+    address public realMadridWalletAddress = 0x99C77CCEF2121091f1033982Bf940ea8587234b8;
 
     mapping(address => Ticket[]) public ticketsInSale;
     mapping(address => uint256) public attendedEvents;
@@ -47,10 +47,10 @@ contract Ticketing is ERC721URIStorage {
             eventName: "Initial Event",
             eventDescription: "This is an initial event for testing purposes.",
             eventDate: block.timestamp + 1 days,
-            price: 0.0001 ether,
+            price: 0.000001 ether,
             owner: address(0),
             club: realMadridWalletAddress,
-            nftURI: ""
+            nftURI: "ipfs://bafkreib4f22nakdr2awk3scwa6dku23xokxdzczof4txc6iizxhwn4kx2y"
         });
 
         ticketsInSale[realMadridWalletAddress].push(initialTicket);
@@ -123,9 +123,8 @@ contract Ticketing is ERC721URIStorage {
     }
 
     function buyTicket(address club, uint256 ticketId) external payable {
-        Ticket[] storage tickets = ticketsInSale[club];
-        require(ticketId < tickets.length, "Invalid ticket ID");
-        Ticket storage ticket = tickets[ticketId];
+        require(ticketId < ticketIdCount, "Invalid ticket ID");
+        Ticket storage ticket = allTickets[ticketId];
 
         require(msg.value >= ticket.price, "Insufficient payment");
         require(ticket.eventDate > block.timestamp, "Cannot buy ticket for past event");
