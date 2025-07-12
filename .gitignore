@@ -22,6 +22,7 @@ blockchain/node_modules
 blockchain/artifacts/
 blockchain/cache/
 blockchain/typechain/
+blockchain/typechain-types/
 blockchain/deployments/
 blockchain/coverage/
 blockchain/.env
@@ -62,3 +63,6 @@ client/.next/
 # Local storage or runtime files
 client/.DS_Store
 client/.eslintcache
+
+client/abi
+client/config.js

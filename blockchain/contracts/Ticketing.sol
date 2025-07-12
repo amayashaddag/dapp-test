@@ -4,7 +4,7 @@ pragma solidity ^0.8.28;
 
 import "./NftFactory.sol";
 
-abstract contract Ticketing {
+contract Ticketing {
     
     NftFactory private nftFactory;
     mapping(uint256 => string) public milestoneNftURIs;
@@ -21,6 +21,7 @@ abstract contract Ticketing {
     }
 
     uint256 private ticketIdCount;
+    address private dummyClub = 0x1234567890123456789012345678901234567890;
 
     mapping(address => Ticket[]) public ticketsInSale;
     mapping(address => uint256) public attendedEvents;
@@ -31,9 +32,9 @@ abstract contract Ticketing {
      * 
      * @dev Initialize the contract with some real milestone NFT URIs.
      */
-    constructor(address nftFactoryAddress) {
+    constructor() {
         ticketIdCount = 0;
-        nftFactory = NftFactory(nftFactoryAddress);
+        nftFactory = NftFactory(dummyClub);
 
         milestoneNftURIs[1] = "https://example.com/milestone1.json";
         milestoneNftURIs[10] = "https://example.com/milestone2.json";

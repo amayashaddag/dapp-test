@@ -3,28 +3,28 @@ import fs from "fs";
 import path from "path";
 
 async function main() {
-  const NftFactory = await ethers.getContractFactory("NftFactory");
-  const contract = await NftFactory.deploy();
+  const Ticketing = await ethers.getContractFactory("Ticketing");
+  const contract = await Ticketing.deploy();
   await contract.waitForDeployment();
 
   const address = await contract.getAddress();
 
-  const artifact = await artifacts.readArtifact("NftFactory");
+  const artifact = await artifacts.readArtifact("Ticketing");
   const frontendPath = path.join(__dirname, "..", "..", "client", "src");
 
   fs.mkdirSync(path.join(frontendPath, "abi"), { recursive: true });
 
   fs.writeFileSync(
-    path.join(frontendPath, "abi", "NftFactory.json"),
+    path.join(frontendPath, "abi", "Ticketing.json"),
     JSON.stringify(artifact, null, 2)
   );
 
   fs.writeFileSync(
     path.join(frontendPath, "config.js"),
-    `export const NFT_FACTORY_ADDRESS = "${address}";\n`
+    `export const TICKETING_ADDRESS = "${address}";\n`
   );
 
-  console.log(`NftFactory deployed to ${address}\n`);
+  console.log(`Ticketing deployed to ${address}\n`);
 }
 
 main().catch((err) => {
