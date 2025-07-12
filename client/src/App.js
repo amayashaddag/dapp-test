@@ -2,22 +2,15 @@ import { useEffect, useState } from "react";
 import { ethers } from "ethers";
 import NftFactoryABI from "./abi/NftFactory.json";
 import { NFT_FACTORY_ADDRESS } from "./config"
-import LandingPage from "./pages/LandingPage";
-import { getHelloMessage } from "./api/backend";
+import CustomButton from "./components/buttons/CustomButton";
 
 function App() {
   const [nftContract, setNftContract] = useState(null);
   const [currentAccount, setCurrentAccount] = useState(null);
   const [loading, setLoading] = useState(false);
   const [status, setStatus] = useState("");
-  const [data, setData] = useState("");
 
   useEffect(() => {
-    //connection to express server
-    getHelloMessage()
-      .then((res) => setData(res.data.message))
-      .catch((err) => console.error("API error:", err));
-
     const init = async () => {
       if (!window.ethereum) {
         alert("Please install MetaMask");
@@ -43,7 +36,6 @@ function App() {
     init();
   }, []);
 
-
   const handleMint = async () => {
     if (!nftContract) return;
 
@@ -61,7 +53,7 @@ function App() {
   };
 
   return (
-   /* <div className="min-h-screen bg-gradient-to-br from-gray-100 to-white flex flex-col items-center justify-center px-4">
+    <div className="min-h-screen bg-gradient-to-br from-gray-100 to-white flex flex-col items-center justify-center px-4">
       <div className="bg-white shadow-xl rounded-2xl p-8 max-w-md w-full text-center">
         <h1 className="text-3xl font-bold text-gray-800 mb-4">🖼️ NFT Factory</h1>
         <p className="text-sm text-gray-500 mb-6">
@@ -108,9 +100,7 @@ function App() {
       <footer className="mt-8 text-xs text-gray-400 text-center">
         Powered by <span className="font-semibold text-blue-500">Hardhat & Ethers.js</span>
       </footer>
-    </div>*/
-    <LandingPage/>
-
+    </div>
   );
 }
 
