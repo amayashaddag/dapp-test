@@ -22,7 +22,6 @@ contract Ticketing {
 
     uint256 private ticketIdCount;
     address public dummyClub = 0x1234567890123456789012345678901234567890;
-
     address public realMadridWalletAddress = 0xbDA5747bFD65F08deb54cb465eB87D40e51B197E;
 
     mapping(address => Ticket[]) public ticketsInSale;
@@ -54,7 +53,7 @@ contract Ticketing {
             nftURI: ""
         });
 
-        ticketsInSale[address(0)].push(initialTicket);
+        ticketsInSale[realMadridWalletAddress].push(initialTicket);
         allTickets[0] = initialTicket;
         ticketIdCount++;
     }
