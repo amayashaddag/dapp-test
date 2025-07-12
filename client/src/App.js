@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { ethers } from "ethers";
 import NftFactoryABI from "./abi/NftFactory.json";
-import { NFT_FACTORY_ADDRESS } from "./config"
+import { TICKETING_ADDRESS } from "./config"
 import LandingPage from "./pages/LandingPage";
 import CustomButton from "./components/buttons/CustomButton";
 import { getHelloMessage } from "./api/backend";
@@ -13,7 +13,7 @@ function App() {
   const [status, setStatus] = useState("");
   const [data, setData] = useState("");
 
-  useEffect(() => {
+ /* useEffect(() => {
     //connection to express server
     getHelloMessage()
       .then((res) => setData(res.data.message))
@@ -33,7 +33,7 @@ function App() {
       setCurrentAccount(address);
 
       const contract = new ethers.Contract(
-        NFT_FACTORY_ADDRESS,
+        TICKETING_ADDRESS,
         NftFactoryABI.abi,
         signer
       );
@@ -42,7 +42,7 @@ function App() {
     };
 
     init();
-  }, []);
+  }, []);*/
 
 
   const handleMint = async () => {

@@ -53,7 +53,7 @@ const MerchList = [
   return (
     <>
     <Header clubsList={logos}/>
-    <MerchShop MerchList={MerchList}/>
+    <MerchShop />
     </>
   );
 };
