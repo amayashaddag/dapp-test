@@ -13,7 +13,7 @@ const MerchShop = ({MerchList}) => {
             <p className="font-specialGothic font-semibold text-[14px] leading-[32px] tracking-[-0.01em] align-middle text-[#004170]"> {item.itemName} </p>
             <p className="font-inter font-semibold text-[14px] leading-[24px] tracking-normal align-middle text-[#8D8A95]">Price</p>
             <p className="font-inter font-semibold text-[18px] leading-[24px] tracking-normal align-middle text-[#110C22]">{item.itemPrice} CHZ</p>
-            <img src={ButtonAddToCart} alt='' className='ml-auto' onClick={() => alert("Button Add to carte")}/>
+            <img src={ButtonAddToCart} alt='' className='ml-auto cursor-pointer' onClick={() => alert("Button Add to carte")}/>
           </div>
 
         </div>
