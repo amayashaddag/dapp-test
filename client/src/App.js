@@ -98,12 +98,12 @@ function App() {
           <p className="text-sm text-gray-600 mt-4">{status}</p>
         )}
       </div>
-      <CustomButton
+      {/* <CustomButton
               width="356px"
               height="50px"
               text="Connect your Socios Wallet"
               onClick={() => alert("Bouton cliqué !")}
-      />
+      /> */}
 
       <footer className="mt-8 text-xs text-gray-400 text-center">
         Powered by <span className="font-semibold text-blue-500">Hardhat & Ethers.js</span>
