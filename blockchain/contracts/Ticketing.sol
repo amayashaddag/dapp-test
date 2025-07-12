@@ -17,7 +17,6 @@ abstract contract Ticketing {
         uint256 price;
         address owner;
         address club;
-        address nftContract;
         string nftURI;
     }
 
@@ -40,6 +39,21 @@ abstract contract Ticketing {
         milestoneNftURIs[10] = "https://example.com/milestone2.json";
         milestoneNftURIs[50] = "https://example.com/milestone3.json";
         milestoneNftURIs[100] = "https://example.com/milestone4.json";
+
+        Ticket memory initialTicket = Ticket({
+            id: 0,
+            eventName: "Initial Event",
+            eventDescription: "This is an initial event for testing purposes.",
+            eventDate: block.timestamp + 1 days,
+            price: 0.0001 ether,
+            owner: address(0),
+            club: address(0),
+            nftURI: ""
+        });
+
+        ticketsInSale[address(0)].push(initialTicket);
+        allTickets[0] = initialTicket;
+        ticketIdCount++;
     }
 
     function addTicketForSale(
@@ -68,7 +82,6 @@ abstract contract Ticketing {
             eventDescription: eventDescription,
             owner: msg.sender,
             club: club,
-            nftContract: nftContract,
             nftURI: nftURI
         });
 
@@ -112,7 +125,7 @@ abstract contract Ticketing {
         ticket.owner = msg.sender;
         attendedEvents[msg.sender]++;
 
-        if (ticket.nftContract != address(0)) {
+        if (bytes(ticket.nftURI).length > 0) {
             nftFactory.mintNFT(msg.sender, ticket.nftURI);
         }
         
