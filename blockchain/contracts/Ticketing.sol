@@ -21,7 +21,9 @@ contract Ticketing {
     }
 
     uint256 private ticketIdCount;
-    address private dummyClub = 0x1234567890123456789012345678901234567890;
+    address public dummyClub = 0x1234567890123456789012345678901234567890;
+
+    address public realMadridWalletAddress = 0xbDA5747bFD65F08deb54cb465eB87D40e51B197E;
 
     mapping(address => Ticket[]) public ticketsInSale;
     mapping(address => uint256) public attendedEvents;
