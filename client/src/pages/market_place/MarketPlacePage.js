@@ -294,6 +294,24 @@ const Marketplace = () => {
                 <ImageIcon className="w-4 h-4" />
                 <span>NFTs</span>
               </button>
+                <button
+                onClick={() => setActiveTab('tickets')}
+                className={`flex items-center space-x-2 px-4 py-2 rounded-lg font-medium transition-colors ${
+                  activeTab === 'tickets' ? 'bg-purple-600 text-white' : 'text-gray-400 hover:text-white'
+                }`}
+              >
+                <ImageIcon className="w-4 h-4" />
+                <span>Tickets</span>
+              </button>
+                            <button
+                onClick={() => setActiveTab('other')}
+                className={`flex items-center space-x-2 px-4 py-2 rounded-lg font-medium transition-colors ${
+                  activeTab === 'other' ? 'bg-purple-600 text-white' : 'text-gray-400 hover:text-white'
+                }`}
+              >
+                <ImageIcon className="w-4 h-4" />
+                <span>Other</span>
+              </button>
             </div>
             
             <div className="flex items-center space-x-4">
@@ -352,13 +370,27 @@ const Marketplace = () => {
               <TokenCard key={token.id} token={token} isGrid={viewMode === 'grid'} />
             ))}
           </div>
-        ) : (
+        ) :
+        activeTab === 'nfts' ?
+        (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
             {filteredNFTs.map((nft) => (
               <NFTCard key={nft.id} nft={nft} />
             ))}
           </div>
-        )}
+        ): 
+
+        activeTab === 'tickets' ?
+        <div className="text-center text-gray-400"> 
+
+          Tickets section is under construction. Stay tuned for updates!
+        </div> :
+        activeTab === 'other' ?
+        <div className="text-center text-gray-400">
+          Other items section is under construction. Stay tuned for updates!
+        </div> :
+        <></>
+      }
       </div>
 
       {/* Sell Modal */}
@@ -391,6 +423,22 @@ const Marketplace = () => {
                 }`}
               >
                 NFTs
+              </button>
+                <button
+                onClick={() => setSellType('nfts')}
+                className={`flex-1 py-2 px-4 rounded-lg font-medium transition-colors ${
+                  sellType === 'tickets' ? 'bg-purple-600 text-white' : 'bg-gray-800 text-gray-400'
+                }`}
+              >
+                Tickets
+              </button>
+                            <button
+                onClick={() => setSellType('nfts')}
+                className={`flex-1 py-2 px-4 rounded-lg font-medium transition-colors ${
+                  sellType === 'other' ? 'bg-purple-600 text-white' : 'bg-gray-800 text-gray-400'
+                }`}
+              >
+                Other
               </button>
             </div>
             

@@ -1,21 +1,22 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
-//import App from './App';
-import TicketsSection from './pages/user_page/ticketsPage';
-import FanTokenHistoryMap from './pages/user_page/map';
-import SocialFeed from './pages/feed_page/feed';
-import UserProfile from './pages/user_page/homePage';
+import App from './App';
+// import TicketsSection from './pages/user_page/ticketsPage';
+// import FanTokenHistoryMap from './pages/user_page/map';
+// import SocialFeed from './pages/feed_page/feed';
+// import UserProfile from './pages/user_page/homePage';
 import reportWebVitals from './reportWebVitals';
+import { BrowserRouter } from 'react-router-dom';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
-  <React.StrictMode>
-    {/* <App /> */}
+  <React.StrictMode>      
+         <App />
     {/* <TicketsSection /> */}
     {/* <FanTokenHistoryMap /> */}
     {/* <UserProfile /> */}
-    <SocialFeed />
+    {/* <SocialFeed /> */}
   </React.StrictMode>
 );
 
