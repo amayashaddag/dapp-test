@@ -2,3 +2,4 @@
 /* tslint:disable */
 /* eslint-disable */
 export type { NftFactory } from "./NftFactory";
+export type { Ticketing } from "./Ticketing";
