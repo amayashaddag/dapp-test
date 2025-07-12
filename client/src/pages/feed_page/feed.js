@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+
 import { 
   Wallet, 
   Trophy, 
@@ -24,6 +26,7 @@ import FanTokenCard from '../market_place/marketPlaceSmallCard';
 
 
 const SocialFeed = () => {
+  const navigate = useNavigate();
   const [showSendModal, setShowSendModal] = useState(false);
   const [sendType, setSendType] = useState('chz'); // 'chz' or 'tokens'
   const [marketplaceIndex, setMarketplaceIndex] = useState(0);
@@ -107,13 +110,10 @@ const SocialFeed = () => {
     }
   ];
 
-  const nextMarketplace = () => {
-    setMarketplaceIndex((prev) => (prev + 1) % marketplaceItems.length);
-  };
+    const handleViewAllMarketplace = () => {
+        navigate('/marketplace');
+    };
 
-  const prevMarketplace = () => {
-    setMarketplaceIndex((prev) => (prev - 1 + marketplaceItems.length) % marketplaceItems.length);
-  };
 
   return (
     <div className="min-h-screen bg-black text-white">
@@ -171,28 +171,21 @@ const SocialFeed = () => {
       <div className="max-w-6xl mx-auto p-6 space-y-6">
         {/* Marketplace Section */}
         <div className="bg-gray-900/80 backdrop-blur-sm rounded-2xl p-6 border border-gray-800">
-          <div className="flex items-center justify-between mb-4">
-            <h3 className="text-lg font-semibold text-white">Marketplace</h3>
-            <div className="flex items-center space-x-2">
-              <button
-                onClick={prevMarketplace}
-                className="p-2 hover:bg-gray-800 rounded-full transition-colors"
-              >
-                <ChevronLeft className="w-5 h-5" />
-              </button>
-              <button
-                onClick={nextMarketplace}
-                className="p-2 hover:bg-gray-800 rounded-full transition-colors"
-              >
-                <ChevronRight className="w-5 h-5" />
-              </button>
-            </div>
-          </div>
+        <div className="flex items-center justify-between mb-4">
+        <h3 className="text-lg font-semibold text-white">Marketplace</h3>
+        <button
+            onClick={handleViewAllMarketplace} // à définir dans ton code
+            className="text-sm font-medium text-purple-400 hover:underline transition-colors"
+        >
+            View All
+        </button>
+        </div>
+
           
-          <div className="grid grid-cols-4 gap-4">
-    {marketplaceItems[marketplaceIndex].map((item) => (
-  <FanTokenCard key={item.id} item={item} />
-))}
+        <div className="grid grid-cols-4 gap-4">
+        {marketplaceItems[marketplaceIndex].map((item) => (
+        <FanTokenCard key={item.id} item={item} />
+        ))}
 
           </div>
         </div>
