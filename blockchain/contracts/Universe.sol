@@ -24,11 +24,7 @@ contract Universe {
         string description;
 
         bool rewardNFT;
-        string rewardNFTURI;
-
         bool rewardFanToken;
-        string rewardFanTokenURI;
-
         bool rewardCrypto;
         uint256 rewardAmount;
     }
@@ -38,6 +34,9 @@ contract Universe {
     FanToken public psgToken;
     FanToken public realMadridToken;
     FanToken public juventusToken;
+
+    NFT public rewardNFTContract;
+    FanToken public rewardFanTokenContract;
 
     mapping(uint256 => MarketplaceItem) public marketplaceItems;
 
@@ -49,6 +48,9 @@ contract Universe {
         psgToken = new FanToken("PSG Fan Token", "PSG");
         realMadridToken = new FanToken("Real Madrid Fan Token", "RMD");
         juventusToken = new FanToken("Juventus Fan Token", "JUV");
+
+        rewardNFTContract = new NFT();
+        rewardFanTokenContract = psgToken; // or any other token as reward
 
         psgToken.transferOwnership(owner);
         realMadridToken.transferOwnership(owner);
@@ -65,6 +67,8 @@ contract Universe {
 
         string memory title,
         string memory description,
+
+        string memory metaData,
 
         bool rewardNFT,
         bool rewardFanToken,
@@ -105,6 +109,7 @@ contract Universe {
             amountOrTokenId: amountOrTokenId,
             title: title,
             description: description,
+            metaData: metaData,
             rewardNFT: rewardNFT,
             rewardFanToken: rewardFanToken,
             rewardCrypto: rewardCrypto,
@@ -138,7 +143,7 @@ contract Universe {
             }
 
             if (item.rewardFanToken) {
-                psgToken.mint(msg.sender, item.rewardAmount); // ou autre club selon logique métier
+                rewardFanTokenContract.mint(msg.sender, item.rewardAmount); // ou autre club selon logique métier
             }
 
             if (item.rewardCrypto) {
