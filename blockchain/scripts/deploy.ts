@@ -3,28 +3,28 @@ import fs from "fs";
 import path from "path";
 
 async function main() {
-  const Ticketing = await ethers.getContractFactory("Ticketing");
-  const contract = await Ticketing.deploy();
+  const Universe = await ethers.getContractFactory("Universe");
+  const contract = await Universe.deploy();
   await contract.waitForDeployment();
 
   const address = await contract.getAddress();
 
-  const artifact = await artifacts.readArtifact("Ticketing");
+  const artifact = await artifacts.readArtifact("Universe");
   const frontendPath = path.join(__dirname, "..", "..", "client", "src");
 
   fs.mkdirSync(path.join(frontendPath, "abi"), { recursive: true });
 
   fs.writeFileSync(
-    path.join(frontendPath, "abi", "Ticketing.json"),
+    path.join(frontendPath, "abi", "Universe.json"),
     JSON.stringify(artifact, null, 2)
   );
 
   fs.writeFileSync(
     path.join(frontendPath, "config.js"),
-    `export const TICKETING_ADDRESS = "${address}";\n`
+    `export const UNIVERSE_ADDRESS = "${address}";\n`
   );
 
-  console.log(`Ticketing deployed to ${address}\n`);
+  console.log(`Universe deployed to ${address}\n`);
 }
 
 main().catch((err) => {

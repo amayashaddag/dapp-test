@@ -38,8 +38,14 @@ contract Universe {
     NFT public rewardNFTContract;
     FanToken public rewardFanTokenContract;
 
-    mapping(uint256 => MarketplaceItem) public marketplaceItems;
+    NFT public nftCollection1;
+    NFT public nftCollection2;
+    NFT public rewardNFTAddress;
 
+    mapping(uint256 => MarketplaceItem) public marketplaceItems;
+    mapping(address => mapping(string => uint256)) public userFanTokenBalances;
+
+    MarketplaceItem[] public testMarketplaceItems;
     uint256 public marketplaceItemCount;
 
     constructor() {
@@ -52,11 +58,118 @@ contract Universe {
         rewardNFTContract = new NFT();
         rewardFanTokenContract = psgToken; // or any other token as reward
 
-        psgToken.transferOwnership(owner);
-        realMadridToken.transferOwnership(owner);
-        juventusToken.transferOwnership(owner);
-
         marketplaceItemCount = 0;
+
+         // Deploy NFT collections
+        nftCollection1 = new NFT();
+        nftCollection2 = new NFT();
+        rewardNFTAddress = new NFT();
+
+        // Mint NFTs
+        nftCollection1.mintNFT(address(this), "ipfs://messi-poster"); // tokenId 0
+        nftCollection2.mintNFT(address(this), "ipfs://stadium-night"); // tokenId 0
+        rewardNFTAddress.mintNFT(address(this), "ipfs://vip-ticket"); // tokenId 0
+
+        // Mint fan tokens
+        psgToken.mint(address(this), 1000);
+        juventusToken.mint(address(this), 1000);
+        realMadridToken.mint(address(this), 1000);
+
+        // Add NFT 1
+        _addItem(
+            Item.NFT,
+            address(nftCollection1),
+            0,
+            0.00005 ether,
+            '{"title":"Messi Goal Poster","collection":"Legends of PSG","rarity":"Epic","image":"https://www.google.com/imgres?q=messi%20illustration&imgurl=https%3A%2F%2Fmedia.printler.com%2Fmedia%2Fphoto%2F192676-2.jpg%3Frmode%3Dcrop%26width%3D638%26height%3D900&imgrefurl=https%3A%2F%2Fprintler.com%2Ffr%2Faffiche%2F192676%2F&docid=N_d3ELaJMvjFlM&tbnid=ZiYvt3GDjBG1AM&vet=12ahUKEwjBnvOq6biOAxWQT6QEHW4uCEQQM3oECG8QAA..i&w=638&h=900&hcb=2&ved=2ahUKEwjBnvOq6biOAxWQT6QEHW4uCEQQM3oECG8QAA"}',
+            "", "", false, false, false, 0
+        );
+
+        // Add NFT 2
+        _addItem(
+            Item.NFT,
+            address(nftCollection2),
+            0,
+            0.00007 ether,
+            '{"title":"Stadium Night View","collection":"UCL Memories","rarity":"Rare","image":"https://i.pinimg.com/736x/40/1f/89/401f894d753b4a9faaf78f8481aecedc.jpg"}',
+            "", "", false, false, false, 0
+        );
+
+        // Add PSG Fan Token
+        _addItem(
+            Item.FanToken,
+            address(psgToken),
+            150,
+            0.00003 ether,
+            '{"title":"PSG Fan Token","collection":"Fan Tokens","rarity":"Common","image":"ipfs://psg.png","club":"PSG","trend":"up"}',
+            "", "", false, false, false, 0
+        );
+
+        // Add JUV Fan Token
+        _addItem(
+            Item.FanToken,
+            address(juventusToken),
+            200,
+            0.000025 ether,
+            '{"title":"Juventus Fan Token","collection":"Fan Tokens","rarity":"Common","image":"https://s2.coinmarketcap.com/static/img/coins/200x200/5226.png","club":"Juventus","trend":"down"}',
+            "", "", false, false, false, 0
+        );
+
+        // Add Physical: VIP Match Ticket (with NFT reward)
+        _addItem(
+            Item.Physical,
+            address(rewardNFTAddress),
+            0,
+            0.000015 ether,
+            "",
+            "VIP Ticket: PSG vs RMD",
+            "Access to VIP lounge + commemorative NFT",
+            true, false, false, 0
+        );
+
+        // Add Physical: Jersey (Fan token + ETH reward)
+        _addItem(
+            Item.Physical,
+            address(juventusToken),
+            0,
+            0.00002 ether,
+            "",
+            "Limited Edition Jersey",
+            "Includes 100 JUV tokens and 0.01 ETH reward",
+            false, true, true, 0.01 ether
+        );
+
+    }
+
+    function _addItem(
+        Item itemType,
+        address tokenAddress,
+        uint256 amountOrTokenId,
+        uint256 price,
+        string memory metaData,
+        string memory title,
+        string memory description,
+        bool rewardNFT,
+        bool rewardFanToken,
+        bool rewardCrypto,
+        uint256 rewardAmount
+    ) internal {
+        marketplaceItems[marketplaceItemCount] = MarketplaceItem({
+            itemType: itemType,
+            seller: address(this),
+            tokenAddress: tokenAddress,
+            price: price,
+            amountOrTokenId: amountOrTokenId,
+            metaData: metaData,
+            title: title,
+            description: description,
+            rewardNFT: rewardNFT,
+            rewardFanToken: rewardFanToken,
+            rewardCrypto: rewardCrypto,
+            rewardAmount: rewardAmount
+        });
+
+        marketplaceItemCount++;
     }
 
     function addItemToMarketplace(

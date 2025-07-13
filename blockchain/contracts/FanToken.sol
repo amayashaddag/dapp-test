@@ -2,9 +2,8 @@
 pragma solidity ^0.8.28;
 
 import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
-import "@openzeppelin/contracts/access/Ownable.sol";
 
-contract FanToken is ERC20, Ownable {
+contract FanToken is ERC20 {
     address private owner;
     string private URI;
 
