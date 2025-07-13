@@ -175,62 +175,60 @@ contract Universe {
         marketplaceItemCount++;
     }
 
-    function addItemToMarketplace(
-        Item itemType,
-        address tokenAddress,
-        uint256 amountOrTokenId,
-        uint256 price,
+    struct AddMarketplaceItemParams {
+        Item itemType;
+        address tokenAddress;
+        uint256 amountOrTokenId;
+        uint256 price;
+        string title;
+        string description;
+        string metaData;
+        bool rewardNFT;
+        bool rewardFanToken;
+        bool rewardCrypto;
+        uint256 rewardAmount;
+    }
 
-        string memory title,
-        string memory description,
+    function addItemToMarketplace(AddMarketplaceItemParams calldata params) external {
+        require(params.price > 0, "Price must be greater than 0");
 
-        string memory metaData,
+        if (params.itemType == Item.NFT) {
+            NFT nftContract = NFT(params.tokenAddress);
 
-        bool rewardNFT,
-        bool rewardFanToken,
-        bool rewardCrypto,
-
-        uint256 rewardAmount
-    ) external {
-        require(price > 0, "Price must be greater than 0");
-
-        if (itemType == Item.NFT) {
-            NFT nftContract = NFT(tokenAddress);
-
-            require(nftContract.ownerOf(amountOrTokenId) == msg.sender, "You do not own this NFT");
+            require(nftContract.ownerOf(params.amountOrTokenId) == msg.sender, "You do not own this NFT");
 
             require(
-                nftContract.getApproved(amountOrTokenId) == address(this) ||
+                nftContract.getApproved(params.amountOrTokenId) == address(this) ||
                 nftContract.isApprovedForAll(msg.sender, address(this)),
                 "Marketplace not approved for NFT"
             );
 
-            nftContract.transferFrom(msg.sender, address(this), amountOrTokenId);
+            nftContract.transferFrom(msg.sender, address(this), params.amountOrTokenId);
         }
 
-        else if (itemType == Item.FanToken) {
-            FanToken tokenContract = FanToken(tokenAddress);
+        else if (params.itemType == Item.FanToken) {
+            FanToken tokenContract = FanToken(params.tokenAddress);
 
-            require(tokenContract.balanceOf(msg.sender) >= amountOrTokenId, "Insufficient fan token balance");
-            require(tokenContract.allowance(msg.sender, address(this)) >= amountOrTokenId, "Marketplace not approved for tokens");
+            require(tokenContract.balanceOf(msg.sender) >= params.amountOrTokenId, "Insufficient fan token balance");
+            require(tokenContract.allowance(msg.sender, address(this)) >= params.amountOrTokenId, "Marketplace not approved for tokens");
 
-            tokenContract.transferFrom(msg.sender, address(this), amountOrTokenId);
+            tokenContract.transferFrom(msg.sender, address(this), params.amountOrTokenId);
         }
 
         marketplaceItems[marketplaceItemCount] = MarketplaceItem({
             id: marketplaceItemCount,
-            itemType: Item.Physical,
+            itemType: params.itemType,
             seller: msg.sender,
-            tokenAddress: tokenAddress,
-            price: price,
-            amountOrTokenId: amountOrTokenId,
-            title: title,
-            description: description,
-            metaData: metaData,
-            rewardNFT: rewardNFT,
-            rewardFanToken: rewardFanToken,
-            rewardCrypto: rewardCrypto,
-            rewardAmount: rewardAmount
+            tokenAddress: params.tokenAddress,
+            price: params.price,
+            amountOrTokenId: params.amountOrTokenId,
+            title: params.title,
+            description: params.description,
+            metaData: params.metaData,
+            rewardNFT: params.rewardNFT,
+            rewardFanToken: params.rewardFanToken,
+            rewardCrypto: params.rewardCrypto,
+            rewardAmount: params.rewardAmount
         });
 
         marketplaceItemCount++;
