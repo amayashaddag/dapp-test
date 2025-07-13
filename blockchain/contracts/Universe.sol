@@ -101,7 +101,7 @@ contract Universe {
             address(psgToken),
             150,
             0.00003 ether,
-            '{"title":"PSG Fan Token","collection":"Fan Tokens","rarity":"Common","image":"ipfs://psg.png","club":"PSG","trend":"up"}',
+            '{"title":"PSG Fan Token","collection":"Fan Tokens","rarity":"Common","image":"https://s2.coinmarketcap.com/static/img/coins/200x200/5226.png","club":"PSG","trend":"up"}',
             "", "", false, false, false, 0
         );
 
@@ -111,7 +111,7 @@ contract Universe {
             address(juventusToken),
             200,
             0.000025 ether,
-            '{"title":"Juventus Fan Token","collection":"Fan Tokens","rarity":"Common","image":"https://s2.coinmarketcap.com/static/img/coins/200x200/5226.png","club":"Juventus","trend":"down"}',
+            '{"title":"Juventus Fan Token","collection":"Fan Tokens","rarity":"Common","image":"https://s2.coinmarketcap.com/static/img/coins/200x200/5224.png","club":"Juventus","trend":"down"}',
             "", "", false, false, false, 0
         );
 
