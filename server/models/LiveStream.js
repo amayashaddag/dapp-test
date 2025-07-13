@@ -1,19 +1,34 @@
-const mongoose = require('mongoose');
-
-const LiveStreamSchema = new mongoose.Schema({
-  host: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
+const liveStreamSchema = new Schema({
+  creatorId: { type: Schema.Types.ObjectId, ref: 'User' },
   title: String,
+  description: String,
+  thumbnail: String,
   streamUrl: String,
-  isLive: { type: Boolean, default: false },
-
-  fanTokenRequired: {
-    symbol: String,
-    minAmount: Number
+  status: { type: String, enum: ['live', 'scheduled', 'ended'] },
+  viewerCount: Number,
+  maxViewers: Number,
+  entryPrice: {
+    amount: Number,
+    currency: { type: String, enum: ['fanTokens', 'chz'] },
   },
-
-  startTime: Date,
-  endTime: Date,
-  viewers: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }]
+  category: String,
+  tags: [String],
+  chat: {
+    enabled: Boolean,
+    messages: [
+      {
+        userId: { type: Schema.Types.ObjectId, ref: 'User' },
+        username: String,
+        message: String,
+        timestamp: Date,
+      }
+    ]
+  },
+  scheduledAt: Date,
+  startedAt: Date,
+  endedAt: Date,
+  createdAt: { type: Date, default: Date.now },
+  updatedAt: { type: Date, default: Date.now },
 });
 
-module.exports = mongoose.model('LiveStream', LiveStreamSchema);
+module.exports = mongoose.model('LiveStream', liveStreamSchema);
