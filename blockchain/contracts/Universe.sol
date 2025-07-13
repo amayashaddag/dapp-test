@@ -12,6 +12,8 @@ contract Universe {
     }
 
     struct MarketplaceItem {
+        uint256 id;
+
         Item itemType;
         address seller;
         address tokenAddress;
@@ -87,7 +89,7 @@ contract Universe {
 
         // Add NFT 2
         _addItem(
-            Item.NFT,
+            Item.NFT, 
             address(nftCollection2),
             0,
             0.00007 ether,
@@ -155,6 +157,7 @@ contract Universe {
         uint256 rewardAmount
     ) internal {
         marketplaceItems[marketplaceItemCount] = MarketplaceItem({
+            id: marketplaceItemCount,
             itemType: itemType,
             seller: address(this),
             tokenAddress: tokenAddress,
@@ -215,6 +218,7 @@ contract Universe {
         }
 
         marketplaceItems[marketplaceItemCount] = MarketplaceItem({
+            id: marketplaceItemCount,
             itemType: Item.Physical,
             seller: msg.sender,
             tokenAddress: tokenAddress,
