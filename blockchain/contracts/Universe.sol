@@ -81,7 +81,7 @@ contract Universe {
             address(nftCollection1),
             0,
             0.00005 ether,
-            '{"title":"Messi Goal Poster","collection":"Legends of PSG","rarity":"Epic","image":"https://www.google.com/imgres?q=messi%20illustration&imgurl=https%3A%2F%2Fmedia.printler.com%2Fmedia%2Fphoto%2F192676-2.jpg%3Frmode%3Dcrop%26width%3D638%26height%3D900&imgrefurl=https%3A%2F%2Fprintler.com%2Ffr%2Faffiche%2F192676%2F&docid=N_d3ELaJMvjFlM&tbnid=ZiYvt3GDjBG1AM&vet=12ahUKEwjBnvOq6biOAxWQT6QEHW4uCEQQM3oECG8QAA..i&w=638&h=900&hcb=2&ved=2ahUKEwjBnvOq6biOAxWQT6QEHW4uCEQQM3oECG8QAA"}',
+            '{"title":"Messi Goal Poster","collection":"Legends of PSG","rarity":"Epic","image":"https://media.printler.com/media/photo/192676-2.jpg?rmode=crop&width=638&height=900"}',
             "", "", false, false, false, 0
         );
 
