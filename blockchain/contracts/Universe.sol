@@ -71,7 +71,7 @@ contract Universe {
             Item.NFT,
             address(nftCollection1),
             0,
-            0.00005 ether,
+            0.0005 ether,
             '{"title":"Messi Goal Poster","collection":"Legends of PSG","rarity":"Epic","image":"https://media.printler.com/media/photo/192676-2.jpg?rmode=crop&width=638&height=900"}',
             "", false, false, false, 0
         );
@@ -91,7 +91,7 @@ contract Universe {
             Item.FanToken,
             address(psgToken),
             150,
-            0.00003 ether,
+            0.0003 ether,
             '{"title":"PSG Fan Token","collection":"Fan Tokens","rarity":"Common","image":"https://s2.coinmarketcap.com/static/img/coins/200x200/5226.png","club":"PSG","trend":"up"}',
             "", false, false, false, 0
         );
@@ -101,7 +101,7 @@ contract Universe {
             Item.FanToken,
             address(juventusToken),
             200,
-            0.000025 ether,
+            0.00025 ether,
             '{"title":"Juventus Fan Token","collection":"Fan Tokens","rarity":"Common","image":"https://s2.coinmarketcap.com/static/img/coins/200x200/5224.png","club":"Juventus","trend":"down"}',
             "", false, false, false, 0
         );
@@ -111,7 +111,7 @@ contract Universe {
             Item.Physical,
             address(rewardNFTAddress),
             0,
-            0.000015 ether,
+            0.00015 ether,
             "",
             "VIP Ticket: PSG vs RMD",
             true, false, false, 0
@@ -122,7 +122,7 @@ contract Universe {
             Item.Physical,
             address(juventusToken),
             0,
-            0.00002 ether,
+            0.0002 ether,
             "",
             "Limited Edition Jersey",
             false, true, true, 0.01 ether
