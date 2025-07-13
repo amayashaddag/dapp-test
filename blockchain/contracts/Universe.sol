@@ -13,18 +13,13 @@ contract Universe {
 
     struct MarketplaceItem {
         uint256 id;
-
         Item itemType;
         address seller;
         address tokenAddress;
         uint256 price;
         uint256 amountOrTokenId;
         string metaData;
-
-        // Only for Physical items
         string title;
-        string description;
-
         bool rewardNFT;
         bool rewardFanToken;
         bool rewardCrypto;
@@ -36,9 +31,6 @@ contract Universe {
     FanToken public psgToken;
     FanToken public realMadridToken;
     FanToken public juventusToken;
-
-    NFT public rewardNFTContract;
-    FanToken public rewardFanTokenContract;
 
     NFT public nftCollection1;
     NFT public nftCollection2;
@@ -56,9 +48,6 @@ contract Universe {
         psgToken = new FanToken("PSG Fan Token", "PSG");
         realMadridToken = new FanToken("Real Madrid Fan Token", "RMD");
         juventusToken = new FanToken("Juventus Fan Token", "JUV");
-
-        rewardNFTContract = new NFT();
-        rewardFanTokenContract = psgToken; // or any other token as reward
 
         marketplaceItemCount = 0;
 
@@ -84,7 +73,7 @@ contract Universe {
             0,
             0.00005 ether,
             '{"title":"Messi Goal Poster","collection":"Legends of PSG","rarity":"Epic","image":"https://media.printler.com/media/photo/192676-2.jpg?rmode=crop&width=638&height=900"}',
-            "", "", false, false, false, 0
+            "", false, false, false, 0
         );
 
         // Add NFT 2
@@ -94,7 +83,7 @@ contract Universe {
             0,
             0.00007 ether,
             '{"title":"Stadium Night View","collection":"UCL Memories","rarity":"Rare","image":"https://i.pinimg.com/736x/40/1f/89/401f894d753b4a9faaf78f8481aecedc.jpg"}',
-            "", "", false, false, false, 0
+            "", false, false, false, 0
         );
 
         // Add PSG Fan Token
@@ -104,7 +93,7 @@ contract Universe {
             150,
             0.00003 ether,
             '{"title":"PSG Fan Token","collection":"Fan Tokens","rarity":"Common","image":"https://s2.coinmarketcap.com/static/img/coins/200x200/5226.png","club":"PSG","trend":"up"}',
-            "", "", false, false, false, 0
+            "", false, false, false, 0
         );
 
         // Add JUV Fan Token
@@ -114,7 +103,7 @@ contract Universe {
             200,
             0.000025 ether,
             '{"title":"Juventus Fan Token","collection":"Fan Tokens","rarity":"Common","image":"https://s2.coinmarketcap.com/static/img/coins/200x200/5224.png","club":"Juventus","trend":"down"}',
-            "", "", false, false, false, 0
+            "", false, false, false, 0
         );
 
         // Add Physical: VIP Match Ticket (with NFT reward)
@@ -125,7 +114,6 @@ contract Universe {
             0.000015 ether,
             "",
             "VIP Ticket: PSG vs RMD",
-            "Access to VIP lounge + commemorative NFT",
             true, false, false, 0
         );
 
@@ -137,7 +125,6 @@ contract Universe {
             0.00002 ether,
             "",
             "Limited Edition Jersey",
-            "Includes 100 JUV tokens and 0.01 ETH reward",
             false, true, true, 0.01 ether
         );
 
@@ -150,7 +137,6 @@ contract Universe {
         uint256 price,
         string memory metaData,
         string memory title,
-        string memory description,
         bool rewardNFT,
         bool rewardFanToken,
         bool rewardCrypto,
@@ -165,7 +151,6 @@ contract Universe {
             amountOrTokenId: amountOrTokenId,
             metaData: metaData,
             title: title,
-            description: description,
             rewardNFT: rewardNFT,
             rewardFanToken: rewardFanToken,
             rewardCrypto: rewardCrypto,
@@ -223,7 +208,6 @@ contract Universe {
             price: params.price,
             amountOrTokenId: params.amountOrTokenId,
             title: params.title,
-            description: params.description,
             metaData: params.metaData,
             rewardNFT: params.rewardNFT,
             rewardFanToken: params.rewardFanToken,
@@ -254,11 +238,11 @@ contract Universe {
 
         else if (item.itemType == Item.Physical) {
             if (item.rewardNFT) {
-                rewardNFTContract.mintNFT(msg.sender, "ipfs://example-metadata-uri");
+                nftCollection1.mintNFT(msg.sender, "ipfs://example-metadata-uri");
             }
 
             if (item.rewardFanToken) {
-                rewardFanTokenContract.mint(msg.sender, item.rewardAmount); // ou autre club selon logique métier
+                psgToken.mint(msg.sender, item.rewardAmount); // ou autre club selon logique métier
             }
 
             if (item.rewardCrypto) {
