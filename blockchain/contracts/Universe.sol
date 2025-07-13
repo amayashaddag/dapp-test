@@ -17,13 +17,17 @@ contract Universe {
         address tokenAddress;
         uint256 price;
         uint256 amountOrTokenId;
+        string metaData;
 
+        // Only for Physical items
         string title;
         string description;
 
         bool rewardNFT;
+        string rewardNFTURI;
 
         bool rewardFanToken;
+        string rewardFanTokenURI;
 
         bool rewardCrypto;
         uint256 rewardAmount;
